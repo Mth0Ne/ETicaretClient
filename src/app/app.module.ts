@@ -8,8 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { BaseComponent } from './base/base.component';
-
+import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+import { HttpClientService } from './services/common/http-client.service'; // Import your service
 
 @NgModule({
   declarations: [
@@ -18,14 +18,18 @@ import { BaseComponent } from './base/base.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AdminModule, UiModule,
+    AdminModule, 
+    UiModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    HttpClientModule  // <-- HttpClientModule stays here
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    HttpClientService,  // <-- HttpClientService goes here, in providers
+    { provide: "baseUrl", useValue: "https://localhost:7145/api", multi: true }
   ],
   bootstrap: [AppComponent]
 })
